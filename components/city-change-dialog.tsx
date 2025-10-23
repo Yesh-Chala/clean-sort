@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { MapPin, Info } from "lucide-react";
+import { MapPin, InfoIcon } from "lucide-react";
 import { getCityPrompt } from "@/lib/city-prompts";
 
 interface CityChangeDialogProps {
@@ -44,7 +44,6 @@ export function CityChangeDialog({
   };
 
   const newCityPrompt = getCityPrompt(newCity);
-  const currentCityPrompt = getCityPrompt(currentCity);
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
@@ -64,7 +63,7 @@ export function CityChangeDialog({
             {newCityPrompt && (
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                 <div className="flex items-start gap-2">
-                  <Info className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                  <InfoIcon className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-primary">
                       Location-specific features will be updated:

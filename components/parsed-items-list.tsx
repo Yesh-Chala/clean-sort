@@ -9,7 +9,7 @@ import { IntervalPicker } from "./interval-picker";
 import { CategoryPill } from "./category-pill";
 import type { WasteCategory } from "@/lib/db";
 import { WASTE_CATEGORIES } from "@/lib/constants";
-import { Edit2, Check, X, Plus } from "lucide-react";
+import { Edit2, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface ParsedItem {
@@ -32,7 +32,6 @@ interface ParsedItemsListProps {
 export function ParsedItemsList({
   items,
   onItemsChange,
-  onAddAll,
   className,
 }: ParsedItemsListProps) {
   const [applyDefaults] = useState(true);

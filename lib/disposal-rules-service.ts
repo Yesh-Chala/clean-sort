@@ -36,7 +36,6 @@ export const DISPOSAL_RULES: DisposalRule[] = [
         url: "https://kspcb.karnataka.gov.in/Waste_Management_Rules"
       }
     ],
-    defaultInterval: 1,
     lastUpdated: subDays(new Date(), 15).toISOString(),
   },
   {

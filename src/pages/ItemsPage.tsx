@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Package, Plus, Trash2, Edit, Calendar, Filter } from "lucide-react";
+import { Package, Plus, Trash2, Calendar, FilterIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { storageService } from "@/lib/storage";
 import { WASTE_CATEGORIES } from "@/lib/constants";
@@ -115,7 +115,7 @@ export default function ItemsPage() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-muted-foreground" />
+              <FilterIcon className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-medium">Filter by category:</span>
             </div>
             {selectedCategory !== "all" && (
@@ -166,7 +166,7 @@ export default function ItemsPage() {
         {filteredItems.length === 0 ? (
           <div className="text-center py-8">
             <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-              <Filter className="h-8 w-8 text-muted-foreground" />
+              <FilterIcon className="h-8 w-8 text-muted-foreground" />
             </div>
             <h3 className="font-semibold mb-2">No items found</h3>
             <p className="text-sm text-muted-foreground mb-4">
@@ -193,7 +193,7 @@ export default function ItemsPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {filteredItems.map((item) => {
+            {filteredItems.map((item: any) => {
               const categoryInfo = WASTE_CATEGORIES[item.category];
               const nextReminder = item.nextReminder 
                 ? new Date(item.nextReminder)

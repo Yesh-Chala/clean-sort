@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { ReminderData } from "@/components/reminder-card";
-import { addHours, subDays, addDays, isBefore } from "date-fns";
+import { addHours, isBefore } from "date-fns";
 import { storageService } from "@/lib/storage";
 
 export function useReminders() {

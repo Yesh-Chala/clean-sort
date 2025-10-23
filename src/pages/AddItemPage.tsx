@@ -14,7 +14,7 @@ import { QuantityInput } from "@/components/quantity-input";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import type { WasteCategory } from "@/lib/db";
 import { WASTE_CATEGORIES } from "@/lib/constants";
-import { ArrowLeft, RotateCcw } from "lucide-react";
+import { ArrowLeft, RotateCcw as RotateCcwIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { storageService } from "@/lib/storage";
@@ -150,7 +150,7 @@ export default function AddItemPage() {
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="outline" size="sm" className="p-2">
-                  <RotateCcw className="h-4 w-4" />
+                  <RotateCcwIcon className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -198,7 +198,6 @@ export default function AddItemPage() {
               id="category"
               value={formData.category}
               onChange={category => setFormData({ ...formData, category })}
-              options={WASTE_CATEGORIES}
               required
             />
             <p className="text-xs text-muted-foreground">

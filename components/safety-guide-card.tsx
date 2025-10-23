@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronDown, ChevronUp, CheckCircle, XCircle, Lightbulb } from "lucide-react";
+import { ChevronDown, ChevronUp, CheckCircle, X, Lightbulb } from "lucide-react";
 import type { SafetyGuide } from "@/lib/disposal-safety-guides";
 
 interface SafetyGuideCardProps {
@@ -86,7 +86,7 @@ export function SafetyGuideCard({ guide, className }: SafetyGuideCardProps) {
             {/* Don'ts */}
             <div className="space-y-2">
               <h4 className="font-medium text-red-700 flex items-center gap-2">
-                <XCircle className="h-4 w-4" />
+                <X className="h-4 w-4" />
                 Don'ts
               </h4>
               <ul className="space-y-1">

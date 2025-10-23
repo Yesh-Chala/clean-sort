@@ -13,7 +13,6 @@ export function ThemeProvider({
   attribute = "class",
   defaultTheme = "system",
   enableSystem = true,
-  disableTransitionOnChange = false,
 }: ThemeProviderProps) {
   const [theme, setTheme] = React.useState(defaultTheme);
 

@@ -110,7 +110,7 @@ Example: [{"name":"Milk","quantity":"1L","category":"recyclable","disposalInterv
         items = JSON.parse(cleanText);
         console.log('OCR SERVICE: Parsed JSON items:', items);
         console.log('OCR SERVICE: Number of items parsed:', items.length);
-        console.log('OCR SERVICE: Items structure check:', items.map((item, i) => ({
+        console.log('OCR SERVICE: Items structure check:', items.map((item: any, i: number) => ({
           index: i,
           hasName: !!item.name,
           hasQuantity: !!item.quantity,
@@ -215,6 +215,7 @@ Example: [{"name":"Milk","quantity":"1L","category":"recyclable","disposalInterv
     return mockResults.map((item, index) => ({
       ...item,
       id: `${Date.now()}-${index}`,
+      category: item.category as any,
     }));
   }
 }

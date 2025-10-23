@@ -4,7 +4,7 @@ import { MobileLayout } from "@/components/mobile-layout";
 import { SafetyGuideCard } from "@/components/safety-guide-card";
 import { EmptyState } from "@/components/empty-state";
 import { getSafetyGuidesByCategory, getCategories } from "@/lib/disposal-safety-guides";
-import { BookOpen, Filter, Search } from "lucide-react";
+import { BookOpen, FilterIcon, Search } from "lucide-react";
 import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -57,7 +57,7 @@ export default function GuidesPage() {
           </div>
           
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-muted-foreground" />
+            <FilterIcon className="h-4 w-4 text-muted-foreground" />
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
               <SelectTrigger className="flex-1 border border-black">
                 <SelectValue placeholder="Filter by category" />

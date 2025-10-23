@@ -16,7 +16,7 @@ interface BeforeInstallPromptEvent extends Event {
 export function PWAInstall() {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
-  const [showInstallPrompt] = useState(false);
+  const [, setShowInstallPrompt] = useState(false);
 
   useEffect(() => {
     const handler = (e: Event) => {

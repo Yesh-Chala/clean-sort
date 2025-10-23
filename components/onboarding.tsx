@@ -11,7 +11,6 @@ import {
   Bell, 
   ArrowRight, 
   CheckCircle,
-  MapPin,
   Recycle
 } from "lucide-react";
 import { cn } from "@/lib/utils";

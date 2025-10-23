@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { WasteCategory } from "@/lib/db";
-import { addDays, subDays, isBefore } from "date-fns";
+import { addDays, isBefore } from "date-fns";
 import { storageService } from "@/lib/storage";
 
 export function useDashboardData() {
