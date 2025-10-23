@@ -3,7 +3,7 @@ import { storageService } from "./storage";
 
 // OCR service using our custom server to avoid CORS issues
 export class OCRService {
-  private static readonly SERVER_URL = import.meta.env.VITE_OCR_SERVER_URL || "http://localhost:64283";
+  private static readonly SERVER_URL = import.meta.env.VITE_OCR_SERVER_URL || "https://cleansort-server-production.up.railway.app";
 
   static async processReceipt(imageFile: File): Promise<ParsedItem[]> {
     try {
