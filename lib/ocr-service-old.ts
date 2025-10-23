@@ -191,6 +191,7 @@ export class OCRService {
     return mockResults.map((item, index) => ({
       ...item,
       id: `${Date.now()}-${index}`,
+      category: item.category as any,
     }));
   }
 }

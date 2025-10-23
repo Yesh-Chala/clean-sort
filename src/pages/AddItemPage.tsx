@@ -13,8 +13,7 @@ import { IntervalPicker } from "@/components/interval-picker";
 import { QuantityInput } from "@/components/quantity-input";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import type { WasteCategory } from "@/lib/db";
-import { WASTE_CATEGORIES } from "@/lib/constants";
-import { ArrowLeft, RotateCcw as RotateCcwIcon } from "lucide-react";
+import { ArrowLeft, RotateCw as RotateCcwIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { storageService } from "@/lib/storage";
@@ -198,7 +197,6 @@ export default function AddItemPage() {
               id="category"
               value={formData.category}
               onChange={category => setFormData({ ...formData, category })}
-              required
             />
             <p className="text-xs text-muted-foreground">
               Select the type of waste for proper disposal

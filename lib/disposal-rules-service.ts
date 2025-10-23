@@ -66,7 +66,6 @@ export const DISPOSAL_RULES: DisposalRule[] = [
         url: "https://bbmp.gov.in/solid-waste-management"
       }
     ],
-    defaultInterval: 7,
     lastUpdated: subDays(new Date(), 10).toISOString(),
   },
   {
@@ -99,7 +98,6 @@ export const DISPOSAL_RULES: DisposalRule[] = [
         url: "https://bbmp.gov.in/dry-waste-collection-centers"
       }
     ],
-    defaultInterval: 14,
     lastUpdated: subDays(new Date(), 8).toISOString(),
   },
   {
@@ -133,7 +131,6 @@ export const DISPOSAL_RULES: DisposalRule[] = [
         url: "https://site.bbmp.gov.in/departmentwebsites/swm/Domestic%20Hazardous%20Waste.html"
       }
     ],
-    defaultInterval: 30,
     lastUpdated: subDays(new Date(), 22).toISOString(),
   },
   {
@@ -167,7 +164,6 @@ export const DISPOSAL_RULES: DisposalRule[] = [
         url: "https://kspcb.karnataka.gov.in/medical-waste.php"
       }
     ],
-    defaultInterval: 1,
     lastUpdated: subDays(new Date(), 5).toISOString(),
   },
   {
@@ -201,7 +197,6 @@ export const DISPOSAL_RULES: DisposalRule[] = [
         url: "https://bbmp.gov.in/e-waste-management/"
       }
     ],
-    defaultInterval: 30,
     lastUpdated: subDays(new Date(), 18).toISOString(),
   },
   // Mumbai rules
@@ -233,7 +228,6 @@ export const DISPOSAL_RULES: DisposalRule[] = [
         url: "https://portal.mcgm.gov.in/irj/portal/anonymous/qlswm"
       }
     ],
-    defaultInterval: 1,
     lastUpdated: subDays(new Date(), 12).toISOString(),
   },
   {
@@ -267,7 +261,6 @@ export const DISPOSAL_RULES: DisposalRule[] = [
         url: "https://portal.mcgm.gov.in/irj/portal/anonymous/qlswm"
       }
     ],
-    defaultInterval: 7,
     lastUpdated: subDays(new Date(), 15).toISOString(),
   },
   // Delhi rules
@@ -302,7 +295,6 @@ export const DISPOSAL_RULES: DisposalRule[] = [
         url: "https://mcdonline.nic.in/"
       }
     ],
-    defaultInterval: 7,
     lastUpdated: subDays(new Date(), 12).toISOString(),
   }
 ];

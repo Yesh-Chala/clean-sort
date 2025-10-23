@@ -13,16 +13,10 @@ import { useToast } from "@/hooks/use-toast";
 import { storageService } from "@/lib/storage";
 import { 
   ArrowLeft, 
-  Moon as MoonIcon, 
-  Sun as SunIcon, 
   Bell, 
   MapPin, 
   Download, 
-  Trash2, 
-  HelpCircle as HelpCircleIcon, 
-  InfoIcon,
-  Shield as ShieldIcon,
-  Database as DatabaseIcon
+  Trash2
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -106,7 +100,7 @@ export default function SettingsPage() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <SunIcon className="h-4 w-4" />
+              <span className="text-lg">☀️</span>
               Appearance
             </CardTitle>
             <CardDescription>
@@ -125,7 +119,7 @@ export default function SettingsPage() {
                   onClick={() => setTheme("light")}
                   className="h-8 w-8 p-0"
                 >
-                  <SunIcon className="h-4 w-4" />
+                  <span className="text-lg">☀️</span>
                 </Button>
                 <Button
                   variant={theme === "dark" ? "default" : "outline"}
@@ -133,7 +127,7 @@ export default function SettingsPage() {
                   onClick={() => setTheme("dark")}
                   className="h-8 w-8 p-0"
                 >
-                  <MoonIcon className="h-4 w-4" />
+                  <span className="text-lg">🌙</span>
                 </Button>
                 <Button
                   variant={theme === "system" ? "default" : "outline"}
@@ -141,7 +135,7 @@ export default function SettingsPage() {
                   onClick={() => setTheme("system")}
                   className="h-8 w-8 p-0"
                 >
-                  <InfoIcon className="h-4 w-4" />
+                  <span className="text-lg">⚙️</span>
                 </Button>
               </div>
             </div>
@@ -212,7 +206,7 @@ export default function SettingsPage() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <DatabaseIcon className="h-4 w-4" />
+              <span className="text-lg">💾</span>
               Data & Sync
             </CardTitle>
             <CardDescription>
@@ -285,7 +279,7 @@ export default function SettingsPage() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <ShieldIcon className="h-4 w-4" />
+              <span className="text-lg">🛡️</span>
               Privacy & Security
             </CardTitle>
             <CardDescription>
@@ -302,7 +296,7 @@ export default function SettingsPage() {
                   description: "Privacy policy will open in your browser",
                 })}
               >
-                <ShieldIcon className="h-4 w-4 mr-2" />
+                <span className="mr-2">🛡️</span>
                 Privacy Policy
               </Button>
               
@@ -314,7 +308,7 @@ export default function SettingsPage() {
                   description: "Terms of service will open in your browser",
                 })}
               >
-                <InfoIcon className="h-4 w-4 mr-2" />
+                <span className="mr-2">ℹ️</span>
                 Terms of Service
               </Button>
             </div>
@@ -325,7 +319,7 @@ export default function SettingsPage() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <HelpCircleIcon className="h-4 w-4" />
+              <span className="text-lg">❓</span>
               Help & Support
             </CardTitle>
             <CardDescription>
@@ -342,7 +336,7 @@ export default function SettingsPage() {
                   description: "Help center will open in your browser",
                 })}
               >
-                <HelpCircleIcon className="h-4 w-4 mr-2" />
+                <span className="mr-2">❓</span>
                 Help Center
               </Button>
               
@@ -354,7 +348,7 @@ export default function SettingsPage() {
                   description: "Contact support will open in your browser",
                 })}
               >
-                <InfoIcon className="h-4 w-4 mr-2" />
+                <span className="mr-2">ℹ️</span>
                 Contact Support
               </Button>
             </div>

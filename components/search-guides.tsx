@@ -18,6 +18,8 @@ export function SearchGuides({
   placeholder = "Search disposal guides...",
   className,
 }: SearchGuidesProps) {
+  const [, setIsFocused] = useState(false);
+  
   const handleClear = () => {
     onChange("");
   };
@@ -32,6 +34,8 @@ export function SearchGuides({
           onChange={e => onChange(e.target.value)}
           placeholder={placeholder}
           className="pl-10 pr-10"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         {value && (
           <Button

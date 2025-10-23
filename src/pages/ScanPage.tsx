@@ -81,8 +81,7 @@ export default function ScanPage() {
     }
   };
 
-  const handleProcessingComplete = (items: ParsedItem[]) => {
-    setParsedItems(items);
+  const handleProcessingComplete = () => {
     setIsProcessing(false);
   };
 
@@ -200,7 +199,7 @@ export default function ScanPage() {
         <OCRProgress
           isProcessing={isProcessing}
           isComplete={processingComplete}
-          onComplete={handleProcessingComplete}
+          onComplete={() => handleProcessingComplete()}
         />
 
         {/* Processing Complete Success Message */}
