@@ -54,21 +54,21 @@ export function OCRProgress({ isProcessing, onComplete, isComplete }: OCRProgres
   if (!isProcessing) return null;
 
   return (
-    <Card>
+    <Card className="border border-black shadow-lg">
       <CardContent className="p-6">
         <div className="text-center space-y-4">
-          <div className="w-16 h-16 mx-auto bg-primary/20 rounded-full flex items-center justify-center border border-primary/30">
+          <div className="w-16 h-16 mx-auto bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center border border-primary/30 shadow-lg">
             <Scan className="h-8 w-8 text-primary animate-spin" />
           </div>
 
           <div>
-            <h3 className="font-semibold mb-2">Processing Receipt</h3>
-            <p className="text-sm text-muted-foreground mb-4">{currentStep}</p>
+            <h3 className="font-semibold mb-2 text-foreground">Processing Receipt</h3>
+            <p className="text-sm text-muted-foreground mb-4 transition-all duration-300">{currentStep}</p>
           </div>
 
           <div className="space-y-2">
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-primary h-2 rounded-full animate-pulse"></div>
+            <div className="w-full bg-muted/30 rounded-full h-2 overflow-hidden">
+              <div className="bg-gradient-to-r from-primary to-primary/70 h-2 rounded-full animate-pulse"></div>
             </div>
             <p className="text-xs text-muted-foreground">
               This may take a few moments...

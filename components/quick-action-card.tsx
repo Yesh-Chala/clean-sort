@@ -24,7 +24,7 @@ export function QuickActionCard({
     <Link to={href}>
       <Card
         className={cn(
-          "transition-all duration-200 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] border border-border shadow-sm",
+          "transition-all duration-200 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] border border-black shadow-sm hover:shadow-xl",
           className
         )}
       >

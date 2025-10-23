@@ -176,7 +176,7 @@ export default function ScanPage() {
           </Link>
           <div className="flex items-center gap-2">
             <Camera className="h-5 w-5" />
-            <h1 className="text-xl font-semibold">Scan Receipt</h1>
+            <h1 className="text-xl font-semibold">📸 Smart Scanner</h1>
           </div>
         </div>
 
@@ -185,13 +185,13 @@ export default function ScanPage() {
 
         {/* Process Button - Show when image is captured but not processed */}
         {capturedImage && !processingComplete && !isProcessing && (
-          <div className="pt-4">
+          <div className="pt-4 animate-in slide-in-from-bottom-4 duration-500">
             <Button 
               onClick={handleProcessReceipt}
-              className="w-full h-12 text-base font-medium bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+              className="w-full h-12 text-base font-medium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 transition-all duration-200 shadow-lg"
             >
               <Scan className="h-5 w-5 mr-2" />
-              Process Receipt
+              🚀 Process Receipt
             </Button>
           </div>
         )}
@@ -205,14 +205,14 @@ export default function ScanPage() {
 
         {/* Processing Complete Success Message */}
         {processingComplete && parsedItems.length > 0 && (
-          <div className="pt-4">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <CheckCircle className="h-6 w-6 text-green-600" />
+          <div className="pt-4 animate-in slide-in-from-bottom-4 duration-500">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200/50 rounded-xl p-6 text-center shadow-lg">
+              <div className="w-14 h-14 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                <CheckCircle className="h-7 w-7 text-green-600" />
               </div>
-              <h3 className="font-semibold text-green-800 mb-1">Processing Complete!</h3>
+              <h3 className="font-semibold text-green-800 mb-2 text-lg">🎉 Amazing! Processing Complete!</h3>
               <p className="text-sm text-green-700">
-                Found {parsedItems.length} item{parsedItems.length !== 1 ? 's' : ''} in your receipt
+                Found {parsedItems.length} item{parsedItems.length !== 1 ? 's' : ''} in your receipt - you're doing great! 🌟
               </p>
             </div>
           </div>
@@ -229,11 +229,11 @@ export default function ScanPage() {
 
         {/* Add All Items Button */}
         {processingComplete && parsedItems && parsedItems.length > 0 && (
-          <div className="pt-4 space-y-3">
+          <div className="pt-4 space-y-3 animate-in slide-in-from-bottom-4 duration-500 delay-200">
             <Button 
               onClick={handleAddAllItems} 
               disabled={isSubmitting}
-              className="w-full h-11 text-base font-medium"
+              className="w-full h-12 text-base font-medium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 transition-all duration-200 shadow-lg"
             >
               {isSubmitting ? (
                 <>
@@ -241,7 +241,7 @@ export default function ScanPage() {
                   Adding Items...
                 </>
               ) : (
-                `Add All ${parsedItems.length} Items`
+                `✨ Add All ${parsedItems.length} Items`
               )}
             </Button>
             
@@ -253,10 +253,10 @@ export default function ScanPage() {
                 setIsProcessing(false);
               }}
               variant="outline"
-              className="w-full h-10 text-sm"
+              className="w-full h-11 text-sm border-border/50 hover:bg-muted/50 transition-all duration-200"
             >
               <Camera className="h-4 w-4 mr-2" />
-              Scan Another Receipt
+              📸 Scan Another Receipt
             </Button>
           </div>
         )}

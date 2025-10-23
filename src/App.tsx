@@ -52,13 +52,16 @@ function App() {
         enableSystem
         disableTransitionOnChange
       >
-        <div className="fixed inset-0 bg-background flex items-center justify-center">
-          <div className="text-center space-y-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-500 rounded-2xl mx-auto flex items-center justify-center">
-              <span className="text-2xl">♻️</span>
+        <div className="fixed inset-0 bg-gradient-to-br from-background to-muted/20 flex items-center justify-center">
+          <div className="text-center space-y-6">
+            <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-3xl mx-auto flex items-center justify-center shadow-2xl">
+              <span className="text-3xl">♻️</span>
             </div>
-            <h1 className="text-xl font-semibold">CleanSort</h1>
-            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <div className="space-y-2">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">CleanSort</h1>
+              <p className="text-sm text-muted-foreground">Smart waste management</p>
+            </div>
+            <div className="w-10 h-10 border-3 border-primary/30 border-t-primary rounded-full animate-spin mx-auto"></div>
           </div>
         </div>
       </ThemeProvider>

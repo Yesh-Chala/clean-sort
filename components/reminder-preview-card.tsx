@@ -6,6 +6,7 @@ import { CategoryPill } from "./category-pill";
 import { Clock, CheckCircle, Store as Snooze } from "lucide-react";
 import type { WasteCategory } from "@/lib/db";
 import { formatDistanceToNow } from "date-fns";
+import { Link } from "react-router-dom";
 
 interface ReminderPreview {
   id: string;
@@ -28,7 +29,7 @@ export function ReminderPreviewCard({
 }: ReminderPreviewCardProps) {
   if (reminders.length === 0) {
     return (
-      <Card>
+      <Card className="border border-black shadow-lg">
         <CardHeader>
           <CardTitle className="text-base flex items-center gap-2">
             <Clock className="h-4 w-4" />
@@ -46,7 +47,7 @@ export function ReminderPreviewCard({
   }
 
   return (
-    <Card>
+    <Card className="border border-black shadow-lg">
       <CardHeader>
         <CardTitle className="text-base flex items-center gap-2">
           <Clock className="h-4 w-4" />
@@ -101,13 +102,15 @@ export function ReminderPreviewCard({
         ))}
 
         {reminders.length > 3 && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full mt-3 bg-transparent"
-          >
-            View All {reminders.length} Reminders
-          </Button>
+          <Link to="/reminders">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-3 bg-transparent border border-black hover:bg-muted/50 transition-all duration-200"
+            >
+              View All {reminders.length} Reminders
+            </Button>
+          </Link>
         )}
       </CardContent>
     </Card>

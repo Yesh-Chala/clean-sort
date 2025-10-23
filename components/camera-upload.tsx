@@ -113,10 +113,10 @@ export function CameraUpload({ onImageCapture, className }: CameraUploadProps) {
             type="button"
             onClick={startCamera}
             size="lg"
-            className="w-full"
+            className="w-full h-12 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 transition-all duration-200 shadow-lg"
           >
             <Camera className="h-5 w-5 mr-2" />
-            Take Photo
+            📸 Take Photo
           </Button>
 
           <Button
@@ -124,16 +124,16 @@ export function CameraUpload({ onImageCapture, className }: CameraUploadProps) {
             variant="outline"
             onClick={() => fileInputRef.current?.click()}
             size="lg"
-            className="w-full"
+            className="w-full h-12 border-border/50 hover:bg-muted/50 transition-all duration-200"
           >
             <Upload className="h-5 w-5 mr-2" />
-            Upload from Gallery
+            📁 Upload from Gallery
           </Button>
         </div>
       )}
 
       {isCapturing && (
-        <Card>
+        <Card className="border border-black shadow-lg">
           <CardContent className="p-4">
             <div className="relative">
               <video
@@ -164,7 +164,7 @@ export function CameraUpload({ onImageCapture, className }: CameraUploadProps) {
       )}
 
       {previewUrl && (
-        <Card>
+        <Card className="border border-black shadow-lg animate-in">
           <CardContent className="p-4">
             <div className="relative">
               <img

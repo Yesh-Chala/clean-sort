@@ -67,15 +67,20 @@ export default function HomePage() {
       <div className="p-4 space-y-6">
         {/* Welcome Section */}
         <div className="text-center py-6">
-          <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-500 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-            <span className="text-2xl">♻️</span>
+          <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-blue-500 rounded-3xl mx-auto mb-4 flex items-center justify-center shadow-lg animate-pulse">
+            <span className="text-3xl">♻️</span>
           </div>
           <h1 className="text-2xl font-bold mb-2 text-balance bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-            Welcome to CleanSort
+            Hey there, Eco Warrior! 🌱
           </h1>
           <p className="text-muted-foreground text-pretty text-sm">
-            Smart waste management for a cleaner tomorrow
+            Let's make waste management fun and easy together!
           </p>
+          <div className="mt-3 flex justify-center gap-2">
+            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">🌍 Eco-Friendly</span>
+            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">🤖 AI-Powered</span>
+            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">📱 Smart</span>
+          </div>
         </div>
 
         {/* Stats Overview */}
@@ -84,22 +89,25 @@ export default function HomePage() {
         {/* Quick Actions */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Quick Actions</h2>
-            <span className="text-xs text-muted-foreground">Get started</span>
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <span>⚡</span>
+              Quick Actions
+            </h2>
+            <span className="text-xs text-muted-foreground">Let's get started!</span>
           </div>
           <div className="space-y-3">
             <QuickActionCard
               href="/scan"
               icon={Camera}
-              title="Scan Receipt"
-              description="Upload receipt and auto-add items"
+              title="📸 Scan Receipt"
+              description="Snap a photo and let AI do the magic!"
               color="bg-gradient-to-br from-blue-500 to-blue-600"
             />
             <QuickActionCard
               href="/add"
               icon={Plus}
-              title="Add Item"
-              description="Manually add a single item"
+              title="➕ Add Item"
+              description="Quickly add a single item manually"
               color="bg-gradient-to-br from-green-500 to-green-600"
             />
           </div>

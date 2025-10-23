@@ -62,14 +62,14 @@ export function CityChangeDialog({
             </p>
             
             {newCityPrompt && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                 <div className="flex items-start gap-2">
-                  <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <Info className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-blue-800">
+                    <p className="text-sm font-medium text-primary">
                       Location-specific features will be updated:
                     </p>
-                    <p className="text-xs text-blue-700">
+                    <p className="text-xs text-muted-foreground">
                       {newCityPrompt.description}
                     </p>
                   </div>
@@ -83,12 +83,14 @@ export function CityChangeDialog({
             </p>
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={isChanging}>Cancel</AlertDialogCancel>
+        <AlertDialogFooter className="gap-2">
+          <AlertDialogCancel disabled={isChanging} className="transition-colors duration-200">
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction 
             onClick={handleConfirm}
             disabled={isChanging}
-            className="bg-primary hover:bg-primary/90"
+            className="bg-primary hover:bg-primary/90 transition-all duration-200"
           >
             {isChanging ? (
               <>

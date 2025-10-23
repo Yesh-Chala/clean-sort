@@ -73,7 +73,7 @@ export function ParsedItemsList({
 
   return (
     <div className={cn("space-y-4", className)}>
-      <Card>
+      <Card className="border border-black shadow-lg">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">
@@ -105,7 +105,7 @@ export function ParsedItemsList({
               isEditing: item.isEditing
             });
             return (
-            <div key={item.id} className="border rounded-lg p-4 space-y-3">
+            <div key={item.id} className="border border-black rounded-xl p-4 space-y-3 bg-card/50 hover:bg-card/80 transition-all duration-200 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   {item.isEditing ? (
