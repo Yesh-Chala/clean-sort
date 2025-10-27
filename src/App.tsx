@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { PWAInstall } from "@/components/pwa-install";
@@ -41,11 +41,16 @@ function AuthenticatedApp() {
     if (user) {
       checkOnboardingStatus();
     } else {
-      // If no user, don't show onboarding
+      // If no user, don't show anything - let ProtectedRoute handle redirect
       setShowOnboarding(false);
       setIsLoading(false);
     }
   }, [user]);
+
+  // If no user, don't render anything - ProtectedRoute will handle redirect
+  if (!user) {
+    return null;
+  }
 
   const handleOnboardingComplete = async () => {
     try {
@@ -109,6 +114,9 @@ function App() {
           {/* Public routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          
+          {/* Root redirect to login */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
           
           {/* Protected routes */}
           <Route path="/*" element={
