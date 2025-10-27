@@ -11,10 +11,22 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+// Debug: Log Firebase config (without sensitive data)
+console.log('Firebase Config Check:', {
+  hasApiKey: !!firebaseConfig.apiKey,
+  hasAuthDomain: !!firebaseConfig.authDomain,
+  hasProjectId: !!firebaseConfig.projectId,
+  hasStorageBucket: !!firebaseConfig.storageBucket,
+  hasMessagingSenderId: !!firebaseConfig.messagingSenderId,
+  hasAppId: !!firebaseConfig.appId,
+});
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+console.log('Firebase app initialized:', app.name);
 
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
+console.log('Firebase auth initialized:', auth.app.name);
 
 export default app;

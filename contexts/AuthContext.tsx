@@ -29,11 +29,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
+  console.log('AuthProvider: Initializing...');
+
   useEffect(() => {
+    console.log('AuthProvider: Setting up auth state listener...');
     const unsubscribe = authService.onAuthStateChanged((firebaseUser: User | null) => {
+      console.log('AuthProvider: Auth state changed:', firebaseUser ? 'User logged in' : 'No user');
       const authUser = authService.convertToAuthUser(firebaseUser);
       setUser(authUser);
       setLoading(false);
+      console.log('AuthProvider: Loading set to false, user:', authUser);
     });
 
     return unsubscribe;

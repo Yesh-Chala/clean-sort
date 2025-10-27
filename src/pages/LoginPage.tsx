@@ -22,6 +22,8 @@ export default function LoginPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  console.log('LoginPage: Component rendered');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
