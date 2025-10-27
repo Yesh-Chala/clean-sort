@@ -142,14 +142,8 @@ class ApiClient {
     return JSON.stringify(data, null, 2);
   }
 
-  // OCR API (with file upload)
+  // OCR API (with file upload) - No auth required
   async processReceipt(imageFile: File, city?: string) {
-    const token = await authService.getIdToken();
-    
-    if (!token) {
-      throw new Error('No authentication token available');
-    }
-
     const formData = new FormData();
     formData.append('image', imageFile);
     if (city) {
@@ -158,9 +152,6 @@ class ApiClient {
 
     const response = await fetch(`${API_BASE_URL}/api/process-receipt`, {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
       body: formData,
     });
 
