@@ -29,7 +29,7 @@ export class OCRService {
     }
   }
 
-  static async uploadToAPI(items: ParsedItem[]): Promise<void> {
+  static async uploadToAPI(_items: ParsedItem[]): Promise<void> {
     // No longer needed since we're processing directly in frontend
   }
 

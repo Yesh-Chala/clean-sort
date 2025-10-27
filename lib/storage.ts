@@ -108,7 +108,7 @@ class StorageService {
     }
   }
 
-  async createReminder(item: StoredItem): Promise<StoredReminder> {
+  async createReminder(_item: StoredItem): Promise<StoredReminder> {
     // This is now handled automatically by the API when saving items
     // We keep this method for compatibility but it's not used
     throw new Error('createReminder is now handled automatically by the API');
@@ -164,11 +164,6 @@ class StorageService {
       console.error("STORAGE SERVICE: Error saving settings:", error);
       throw error;
     }
-  }
-
-  // Utility
-  private generateId(): string {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
 
   // Onboarding

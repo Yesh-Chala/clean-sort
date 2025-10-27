@@ -121,7 +121,7 @@ export default function SettingsPage() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <span className="text-lg">☀️</span>
+              <span className="text-lg">Theme</span>
               Appearance
             </CardTitle>
             <CardDescription>
@@ -140,7 +140,7 @@ export default function SettingsPage() {
                   onClick={() => setTheme("light")}
                   className="h-8 w-8 p-0"
                 >
-                  <span className="text-lg">☀️</span>
+                  <span className="text-sm">Light</span>
                 </Button>
                 <Button
                   variant={theme === "dark" ? "default" : "outline"}
@@ -148,7 +148,7 @@ export default function SettingsPage() {
                   onClick={() => setTheme("dark")}
                   className="h-8 w-8 p-0"
                 >
-                  <span className="text-lg">🌙</span>
+                  <span className="text-sm">Dark</span>
                 </Button>
                 <Button
                   variant={theme === "system" ? "default" : "outline"}
@@ -156,7 +156,7 @@ export default function SettingsPage() {
                   onClick={() => setTheme("system")}
                   className="h-8 w-8 p-0"
                 >
-                  <span className="text-lg">⚙️</span>
+                  <span className="text-sm">Auto</span>
                 </Button>
               </div>
             </div>
@@ -227,7 +227,7 @@ export default function SettingsPage() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <span className="text-lg">💾</span>
+              <span className="text-lg">Data</span>
               Data & Sync
             </CardTitle>
             <CardDescription>
@@ -300,7 +300,7 @@ export default function SettingsPage() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <span className="text-lg">🛡️</span>
+              <span className="text-lg">Security</span>
               Privacy & Security
             </CardTitle>
             <CardDescription>
@@ -317,7 +317,7 @@ export default function SettingsPage() {
                   description: "Privacy policy will open in your browser",
                 })}
               >
-                <span className="mr-2">🛡️</span>
+                <span className="mr-2">Privacy</span>
                 Privacy Policy
               </Button>
               
@@ -329,7 +329,7 @@ export default function SettingsPage() {
                   description: "Terms of service will open in your browser",
                 })}
               >
-                <span className="mr-2">ℹ️</span>
+                <span className="mr-2">Terms</span>
                 Terms of Service
               </Button>
             </div>
@@ -340,7 +340,7 @@ export default function SettingsPage() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <span className="text-lg">❓</span>
+              <span className="text-lg">Help</span>
               Help & Support
             </CardTitle>
             <CardDescription>
@@ -357,7 +357,7 @@ export default function SettingsPage() {
                   description: "Help center will open in your browser",
                 })}
               >
-                <span className="mr-2">❓</span>
+                <span className="mr-2">Help</span>
                 Help Center
               </Button>
               
@@ -369,7 +369,7 @@ export default function SettingsPage() {
                   description: "Contact support will open in your browser",
                 })}
               >
-                <span className="mr-2">ℹ️</span>
+                <span className="mr-2">Contact</span>
                 Contact Support
               </Button>
             </div>
@@ -380,7 +380,7 @@ export default function SettingsPage() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
-              <span className="text-lg">👤</span>
+              <span className="text-lg">Account</span>
               Account
             </CardTitle>
             <CardDescription>
