@@ -1,6 +1,7 @@
 "use client";
 
 import type { WasteCategory } from "./db";
+import { apiClient } from "./api-client";
 
 export interface StoredItem {
   id: string;
@@ -25,55 +26,28 @@ export interface StoredReminder {
 }
 
 class StorageService {
-  private readonly ITEMS_KEY = "cleansort-items";
-  private readonly REMINDERS_KEY = "cleansort-reminders";
-  private readonly SETTINGS_KEY = "cleansort-settings";
-  private readonly ONBOARDING_KEY = "cleansort-onboarding";
-  private readonly SELECTED_CITY_KEY = "cleansort-selected-city";
-
   // Items
   async getItems(): Promise<StoredItem[]> {
     try {
-      const items = localStorage.getItem(this.ITEMS_KEY);
-      return items ? JSON.parse(items) : [];
+      console.log('=== STORAGE SERVICE: Getting items from API ===');
+      const items = await apiClient.getItems();
+      console.log('STORAGE SERVICE: Items received from API:', items);
+      return items;
     } catch (error) {
-      console.error("Error loading items:", error);
-      return [];
+      console.error("STORAGE SERVICE: Error loading items:", error);
+      throw error;
     }
   }
 
   async saveItem(item: Omit<StoredItem, "id" | "createdAt">): Promise<StoredItem> {
     try {
-      console.log('=== STORAGE SERVICE: Starting saveItem ===');
+      console.log('=== STORAGE SERVICE: Starting saveItem via API ===');
       console.log('STORAGE SERVICE: Item to save:', item);
       
-      const items = await this.getItems();
-      console.log('STORAGE SERVICE: Current items in storage:', items);
-      console.log('STORAGE SERVICE: Current items count:', items.length);
+      const result = await apiClient.saveItem(item);
+      console.log('STORAGE SERVICE: Item saved via API:', result);
       
-      const newItem: StoredItem = {
-        ...item,
-        id: this.generateId(),
-        createdAt: new Date().toISOString(),
-      };
-      
-      console.log('STORAGE SERVICE: Generated new item:', newItem);
-      
-      items.push(newItem);
-      console.log('STORAGE SERVICE: Items after push:', items);
-      console.log('STORAGE SERVICE: Items count after push:', items.length);
-      
-      localStorage.setItem(this.ITEMS_KEY, JSON.stringify(items));
-      console.log('STORAGE SERVICE: Items saved to localStorage');
-      
-      // Generate reminder for the item
-      console.log('STORAGE SERVICE: Creating reminder for item...');
-      await this.createReminder(newItem);
-      console.log('STORAGE SERVICE: Reminder created successfully');
-      
-      console.log('STORAGE SERVICE: saveItem completed successfully');
-      console.log('STORAGE SERVICE: Final items count in storage:', items.length);
-      return newItem;
+      return result.item;
     } catch (error) {
       console.error("STORAGE SERVICE: Error saving item:", error);
       throw error;
@@ -82,35 +56,13 @@ class StorageService {
 
   async saveMultipleItems(items: Omit<StoredItem, "id" | "createdAt">[]): Promise<StoredItem[]> {
     try {
-      console.log('=== STORAGE SERVICE: Starting saveMultipleItems ===');
+      console.log('=== STORAGE SERVICE: Starting saveMultipleItems via API ===');
       console.log('STORAGE SERVICE: Items to save:', items.length);
       
-      const existingItems = await this.getItems();
-      console.log('STORAGE SERVICE: Current items in storage:', existingItems.length);
+      const result = await apiClient.saveMultipleItems(items);
+      console.log('STORAGE SERVICE: Items saved via API:', result);
       
-      const newItems: StoredItem[] = items.map(item => ({
-        ...item,
-        id: this.generateId(),
-        createdAt: new Date().toISOString(),
-      }));
-      
-      console.log('STORAGE SERVICE: Generated new items:', newItems);
-      
-      const allItems = [...existingItems, ...newItems];
-      console.log('STORAGE SERVICE: All items after adding new ones:', allItems.length);
-      
-      localStorage.setItem(this.ITEMS_KEY, JSON.stringify(allItems));
-      console.log('STORAGE SERVICE: All items saved to localStorage');
-      
-      // Generate reminders for all items
-      console.log('STORAGE SERVICE: Creating reminders for all items...');
-      for (const item of newItems) {
-        await this.createReminder(item);
-      }
-      console.log('STORAGE SERVICE: All reminders created successfully');
-      
-      console.log('STORAGE SERVICE: saveMultipleItems completed successfully');
-      return newItems;
+      return result.items;
     } catch (error) {
       console.error("STORAGE SERVICE: Error saving multiple items:", error);
       throw error;
@@ -119,29 +71,26 @@ class StorageService {
 
   async updateItem(id: string, updates: Partial<StoredItem>): Promise<void> {
     try {
-      const items = await this.getItems();
-      const index = items.findIndex(item => item.id === id);
+      console.log('=== STORAGE SERVICE: Updating item via API ===');
+      console.log('STORAGE SERVICE: Item ID:', id, 'Updates:', updates);
       
-      if (index !== -1) {
-        items[index] = { ...items[index], ...updates };
-        localStorage.setItem(this.ITEMS_KEY, JSON.stringify(items));
-      }
+      await apiClient.updateItem(id, updates);
+      console.log('STORAGE SERVICE: Item updated via API');
     } catch (error) {
-      console.error("Error updating item:", error);
+      console.error("STORAGE SERVICE: Error updating item:", error);
       throw error;
     }
   }
 
   async deleteItem(id: string): Promise<void> {
     try {
-      const items = await this.getItems();
-      const filteredItems = items.filter(item => item.id !== id);
-      localStorage.setItem(this.ITEMS_KEY, JSON.stringify(filteredItems));
+      console.log('=== STORAGE SERVICE: Deleting item via API ===');
+      console.log('STORAGE SERVICE: Item ID:', id);
       
-      // Remove associated reminders
-      await this.deleteRemindersByItemId(id);
+      await apiClient.deleteItem(id);
+      console.log('STORAGE SERVICE: Item deleted via API');
     } catch (error) {
-      console.error("Error deleting item:", error);
+      console.error("STORAGE SERVICE: Error deleting item:", error);
       throw error;
     }
   }
@@ -149,62 +98,44 @@ class StorageService {
   // Reminders
   async getReminders(): Promise<StoredReminder[]> {
     try {
-      const reminders = localStorage.getItem(this.REMINDERS_KEY);
-      return reminders ? JSON.parse(reminders) : [];
+      console.log('=== STORAGE SERVICE: Getting reminders from API ===');
+      const reminders = await apiClient.getReminders();
+      console.log('STORAGE SERVICE: Reminders received from API:', reminders);
+      return reminders;
     } catch (error) {
-      console.error("Error loading reminders:", error);
-      return [];
-    }
-  }
-
-  async createReminder(item: StoredItem): Promise<StoredReminder> {
-    try {
-      const reminders = await this.getReminders();
-      const dueDate = new Date();
-      dueDate.setDate(dueDate.getDate() + item.interval);
-      
-      const newReminder: StoredReminder = {
-        id: this.generateId(),
-        itemId: item.id,
-        itemName: item.name,
-        category: item.category,
-        dueDate: dueDate.toISOString(),
-        status: "upcoming",
-        createdAt: new Date().toISOString(),
-      };
-      
-      reminders.push(newReminder);
-      localStorage.setItem(this.REMINDERS_KEY, JSON.stringify(reminders));
-      
-      return newReminder;
-    } catch (error) {
-      console.error("Error creating reminder:", error);
+      console.error("STORAGE SERVICE: Error loading reminders:", error);
       throw error;
     }
   }
 
+  async createReminder(item: StoredItem): Promise<StoredReminder> {
+    // This is now handled automatically by the API when saving items
+    // We keep this method for compatibility but it's not used
+    throw new Error('createReminder is now handled automatically by the API');
+  }
+
   async updateReminder(id: string, updates: Partial<StoredReminder>): Promise<void> {
     try {
-      const reminders = await this.getReminders();
-      const index = reminders.findIndex(reminder => reminder.id === id);
+      console.log('=== STORAGE SERVICE: Updating reminder via API ===');
+      console.log('STORAGE SERVICE: Reminder ID:', id, 'Updates:', updates);
       
-      if (index !== -1) {
-        reminders[index] = { ...reminders[index], ...updates };
-        localStorage.setItem(this.REMINDERS_KEY, JSON.stringify(reminders));
-      }
+      await apiClient.updateReminder(id, updates);
+      console.log('STORAGE SERVICE: Reminder updated via API');
     } catch (error) {
-      console.error("Error updating reminder:", error);
+      console.error("STORAGE SERVICE: Error updating reminder:", error);
       throw error;
     }
   }
 
   async deleteRemindersByItemId(itemId: string): Promise<void> {
     try {
-      const reminders = await this.getReminders();
-      const filteredReminders = reminders.filter(reminder => reminder.itemId !== itemId);
-      localStorage.setItem(this.REMINDERS_KEY, JSON.stringify(filteredReminders));
+      console.log('=== STORAGE SERVICE: Deleting reminders by item ID via API ===');
+      console.log('STORAGE SERVICE: Item ID:', itemId);
+      
+      await apiClient.deleteRemindersByItemId(itemId);
+      console.log('STORAGE SERVICE: Reminders deleted via API');
     } catch (error) {
-      console.error("Error deleting reminders:", error);
+      console.error("STORAGE SERVICE: Error deleting reminders:", error);
       throw error;
     }
   }
@@ -212,19 +143,25 @@ class StorageService {
   // Settings
   async getSettings(): Promise<Record<string, any>> {
     try {
-      const settings = localStorage.getItem(this.SETTINGS_KEY);
-      return settings ? JSON.parse(settings) : {};
+      console.log('=== STORAGE SERVICE: Getting settings from API ===');
+      const settings = await apiClient.getSettings();
+      console.log('STORAGE SERVICE: Settings received from API:', settings);
+      return settings;
     } catch (error) {
-      console.error("Error loading settings:", error);
-      return {};
+      console.error("STORAGE SERVICE: Error loading settings:", error);
+      throw error;
     }
   }
 
   async saveSettings(settings: Record<string, any>): Promise<void> {
     try {
-      localStorage.setItem(this.SETTINGS_KEY, JSON.stringify(settings));
+      console.log('=== STORAGE SERVICE: Saving settings via API ===');
+      console.log('STORAGE SERVICE: Settings to save:', settings);
+      
+      await apiClient.saveSettings(settings);
+      console.log('STORAGE SERVICE: Settings saved via API');
     } catch (error) {
-      console.error("Error saving settings:", error);
+      console.error("STORAGE SERVICE: Error saving settings:", error);
       throw error;
     }
   }
@@ -237,19 +174,23 @@ class StorageService {
   // Onboarding
   async getOnboardingStatus(): Promise<boolean> {
     try {
-      const status = localStorage.getItem(this.ONBOARDING_KEY);
-      return status === "completed";
+      console.log('=== STORAGE SERVICE: Getting onboarding status from API ===');
+      const status = await apiClient.getOnboardingStatus();
+      console.log('STORAGE SERVICE: Onboarding status received from API:', status);
+      return status;
     } catch (error) {
-      console.error("Error loading onboarding status:", error);
-      return false;
+      console.error("STORAGE SERVICE: Error loading onboarding status:", error);
+      throw error;
     }
   }
 
   async setOnboardingCompleted(): Promise<void> {
     try {
-      localStorage.setItem(this.ONBOARDING_KEY, "completed");
+      console.log('=== STORAGE SERVICE: Setting onboarding completed via API ===');
+      await apiClient.setOnboardingCompleted();
+      console.log('STORAGE SERVICE: Onboarding status set via API');
     } catch (error) {
-      console.error("Error saving onboarding status:", error);
+      console.error("STORAGE SERVICE: Error saving onboarding status:", error);
       throw error;
     }
   }
@@ -257,19 +198,25 @@ class StorageService {
   // Selected City
   async getSelectedCity(): Promise<string> {
     try {
-      const city = localStorage.getItem(this.SELECTED_CITY_KEY);
-      return city || "Bengaluru, Karnataka"; // Default city
+      console.log('=== STORAGE SERVICE: Getting selected city from API ===');
+      const city = await apiClient.getSelectedCity();
+      console.log('STORAGE SERVICE: Selected city received from API:', city);
+      return city;
     } catch (error) {
-      console.error("Error loading selected city:", error);
-      return "Bengaluru, Karnataka";
+      console.error("STORAGE SERVICE: Error loading selected city:", error);
+      throw error;
     }
   }
 
   async setSelectedCity(city: string): Promise<void> {
     try {
-      localStorage.setItem(this.SELECTED_CITY_KEY, city);
+      console.log('=== STORAGE SERVICE: Setting selected city via API ===');
+      console.log('STORAGE SERVICE: City to set:', city);
+      
+      await apiClient.setSelectedCity(city);
+      console.log('STORAGE SERVICE: Selected city set via API');
     } catch (error) {
-      console.error("Error saving selected city:", error);
+      console.error("STORAGE SERVICE: Error saving selected city:", error);
       throw error;
     }
   }
@@ -277,13 +224,12 @@ class StorageService {
   // Clear all data
   async clearAllData(): Promise<void> {
     try {
-      localStorage.removeItem(this.ITEMS_KEY);
-      localStorage.removeItem(this.REMINDERS_KEY);
-      localStorage.removeItem(this.SETTINGS_KEY);
-      localStorage.removeItem(this.ONBOARDING_KEY);
-      localStorage.removeItem(this.SELECTED_CITY_KEY);
+      console.log('=== STORAGE SERVICE: Clearing all data via API ===');
+      // Note: This would need to be implemented in the API
+      // For now, we'll throw an error to indicate it's not implemented
+      throw new Error('Clear all data is not implemented in the API yet');
     } catch (error) {
-      console.error("Error clearing data:", error);
+      console.error("STORAGE SERVICE: Error clearing data:", error);
       throw error;
     }
   }
@@ -291,16 +237,12 @@ class StorageService {
   // Export data
   async exportData(): Promise<string> {
     try {
-      const data = {
-        items: await this.getItems(),
-        reminders: await this.getReminders(),
-        settings: await this.getSettings(),
-        exportedAt: new Date().toISOString(),
-      };
-      
-      return JSON.stringify(data, null, 2);
+      console.log('=== STORAGE SERVICE: Exporting data via API ===');
+      const data = await apiClient.exportData();
+      console.log('STORAGE SERVICE: Data exported via API');
+      return data;
     } catch (error) {
-      console.error("Error exporting data:", error);
+      console.error("STORAGE SERVICE: Error exporting data:", error);
       throw error;
     }
   }

@@ -10,19 +10,23 @@ import { Separator } from "@/components/ui/separator";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useTheme } from "@/components/theme-provider";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { storageService } from "@/lib/storage";
 import { 
   ArrowLeft, 
   Bell, 
   MapPin, 
   Download, 
-  Trash2
+  Trash2,
+  LogOut
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const { toast } = useToast();
+  const { signOut, user } = useAuth();
+  const navigate = useNavigate();
   
   const [notifications, setNotifications] = useState(true);
   const [locationServices, setLocationServices] = useState(true);
@@ -81,6 +85,23 @@ export default function SettingsPage() {
       title: "Settings Reset",
       description: "All settings have been restored to defaults",
     });
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out",
+      });
+      navigate("/login");
+    } catch (error) {
+      toast({
+        title: "Sign out failed",
+        description: "Could not sign out. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -352,6 +373,56 @@ export default function SettingsPage() {
                 Contact Support
               </Button>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Account */}
+        <Card className="border border-border">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <span className="text-lg">👤</span>
+              Account
+            </CardTitle>
+            <CardDescription>
+              Manage your account and authentication
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Email</Label>
+              <p className="text-sm text-muted-foreground">{user?.email}</p>
+            </div>
+            
+            <Separator />
+            
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start text-destructive hover:text-destructive"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Sign Out</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to sign out? You'll need to sign in again to access your data.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction 
+                    onClick={handleSignOut}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    Sign Out
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </CardContent>
         </Card>
 
