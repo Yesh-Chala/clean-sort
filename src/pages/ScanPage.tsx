@@ -150,7 +150,7 @@ export default function ScanPage() {
 
       // Clear the parsed items and navigate
       setParsedItems([]);
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error('Error adding items:', error);
       toast({

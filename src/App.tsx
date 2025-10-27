@@ -26,7 +26,6 @@ function AuthenticatedApp() {
     const checkOnboardingStatus = async () => {
       try {
         const hasCompletedOnboarding = await storageService.getOnboardingStatus();
-        console.log("Onboarding status:", hasCompletedOnboarding);
         setShowOnboarding(!hasCompletedOnboarding);
       } catch (error) {
         console.error("Error checking onboarding status:", error);
@@ -89,7 +88,8 @@ function AuthenticatedApp() {
       )}
       
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/add" element={<AddItemPage />} />
         <Route path="/scan" element={<ScanPage />} />
         <Route path="/reminders" element={<RemindersPage />} />

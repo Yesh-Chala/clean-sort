@@ -166,24 +166,20 @@ class StorageService {
     }
   }
 
-  // Onboarding
+  // Onboarding - Use local storage since server doesn't have onboarding API
   async getOnboardingStatus(): Promise<boolean> {
     try {
-      console.log('=== STORAGE SERVICE: Getting onboarding status from API ===');
-      const status = await apiClient.getOnboardingStatus();
-      console.log('STORAGE SERVICE: Onboarding status received from API:', status);
-      return status;
+      const status = localStorage.getItem('cleansort-onboarding');
+      return status === 'completed';
     } catch (error) {
       console.error("STORAGE SERVICE: Error loading onboarding status:", error);
-      throw error;
+      return false;
     }
   }
 
   async setOnboardingCompleted(): Promise<void> {
     try {
-      console.log('=== STORAGE SERVICE: Setting onboarding completed via API ===');
-      await apiClient.setOnboardingCompleted();
-      console.log('STORAGE SERVICE: Onboarding status set via API');
+      localStorage.setItem('cleansort-onboarding', 'completed');
     } catch (error) {
       console.error("STORAGE SERVICE: Error saving onboarding status:", error);
       throw error;

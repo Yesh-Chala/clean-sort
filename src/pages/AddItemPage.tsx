@@ -119,7 +119,7 @@ export default function AddItemPage() {
         unit: "pieces",
       });
 
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       toast({
         title: "Failed to add item",

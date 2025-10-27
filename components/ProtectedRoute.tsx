@@ -11,10 +11,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, loading } = useAuth();
   const location = useLocation();
 
-  console.log('ProtectedRoute: Loading:', loading, 'User:', user ? 'Present' : 'None');
-
   if (loading) {
-    console.log('ProtectedRoute: Showing loading spinner');
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -26,11 +23,9 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   if (!user) {
-    console.log('ProtectedRoute: No user, redirecting to login');
     // Redirect to login page with return url
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  console.log('ProtectedRoute: User authenticated, rendering children');
   return <>{children}</>;
 }

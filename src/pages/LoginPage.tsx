@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,11 +18,16 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { signIn } = useAuth();
+  const { signIn, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  console.log('LoginPage: Component rendered');
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +46,7 @@ export default function LoginPage() {
         title: "Welcome back!",
         description: "You've successfully signed in",
       });
-      navigate("/");
+      // Navigation will be handled by useEffect when user state updates
     } catch (error: any) {
       setError(error.message);
       toast({

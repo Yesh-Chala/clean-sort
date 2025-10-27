@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,9 +21,16 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { signUp } = useAuth();
+  const { signUp, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,7 +69,7 @@ export default function SignupPage() {
         title: "Account created!",
         description: "Welcome to CleanSort! You can now start tracking your waste.",
       });
-      navigate("/");
+      // Navigation will be handled by useEffect when user state updates
     } catch (error: any) {
       setError(error.message);
       toast({
