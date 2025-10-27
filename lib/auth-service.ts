@@ -30,6 +30,7 @@ class AuthService {
   // Sign in with email and password
   async signIn(email: string, password: string): Promise<UserCredential> {
     try {
+      console.log('AuthService: Attempting sign in with email:', email);
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('User signed in successfully:', userCredential.user.uid);
       return userCredential;

@@ -30,10 +30,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log('AuthContext: Setting up auth state listener...');
     const unsubscribe = authService.onAuthStateChanged((firebaseUser: User | null) => {
+      console.log('AuthContext: Auth state changed:', firebaseUser ? 'User logged in' : 'No user');
       const authUser = authService.convertToAuthUser(firebaseUser);
+      console.log('AuthContext: Converted user:', authUser);
       setUser(authUser);
       setLoading(false);
+      console.log('AuthContext: Loading set to false, user state updated');
     });
 
     return unsubscribe;

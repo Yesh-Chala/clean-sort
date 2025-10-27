@@ -102,6 +102,7 @@ function AuthenticatedApp() {
 }
 
 function App() {
+  console.log('App: Rendering main App component');
   return (
     <AuthProvider>
       <ThemeProvider

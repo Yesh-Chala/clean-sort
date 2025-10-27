@@ -24,7 +24,9 @@ export default function LoginPage() {
 
   // Redirect if user is already logged in
   useEffect(() => {
+    console.log('LoginPage useEffect - user:', user ? 'present' : 'none');
     if (user) {
+      console.log('LoginPage: User detected, redirecting to /home');
       navigate("/home");
     }
   }, [user, navigate]);
@@ -41,7 +43,9 @@ export default function LoginPage() {
     setError("");
 
     try {
+      console.log('LoginPage: Starting signIn...');
       await signIn(email, password);
+      console.log('LoginPage: signIn completed successfully');
       toast({
         title: "Welcome back!",
         description: "You've successfully signed in",
