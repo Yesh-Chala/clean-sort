@@ -26,16 +26,16 @@ export interface StoredReminder {
 }
 
 class StorageService {
-  // Items
+  // Items - Use API (Firebase via server)
   async getItems(): Promise<StoredItem[]> {
     try {
       console.log('=== STORAGE SERVICE: Getting items from API ===');
       const items = await apiClient.getItems();
-      console.log('STORAGE SERVICE: Items received from API:', items);
+      console.log('STORAGE SERVICE: Items loaded from API:', items.length, 'items');
       return items;
     } catch (error) {
       console.error("STORAGE SERVICE: Error loading items:", error);
-      throw error;
+      return [];
     }
   }
 
@@ -236,6 +236,10 @@ class StorageService {
       console.error("STORAGE SERVICE: Error exporting data:", error);
       throw error;
     }
+  }
+
+  private generateId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
 }
 

@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getMessaging } from 'firebase/messaging';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -28,5 +29,18 @@ console.log('Firebase app initialized:', app.name);
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
 console.log('Firebase auth initialized:', auth.app.name);
+
+// Initialize Firebase Cloud Messaging (only in browser, not SSR)
+let messaging: ReturnType<typeof getMessaging> | null = null;
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+  try {
+    messaging = getMessaging(app);
+    console.log('Firebase messaging initialized');
+  } catch (error) {
+    console.warn('Firebase messaging initialization failed:', error);
+  }
+}
+
+export { messaging };
 
 export default app;

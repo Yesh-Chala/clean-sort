@@ -4,16 +4,28 @@ const API_BASE_URL = import.meta.env.VITE_OCR_SERVER_URL || 'http://localhost:30
 
 class ApiClient {
   private async getAuthHeaders(): Promise<HeadersInit> {
-    const token = await authService.getIdToken();
-    
-    if (!token) {
-      throw new Error('No authentication token available');
+    try {
+      const token = await authService.getIdToken();
+      
+      if (!token) {
+        // Return headers without auth if no token available
+        // Some endpoints don't require auth
+        return {
+          'Content-Type': 'application/json',
+        };
+      }
+      
+      return {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+    } catch (error) {
+      // If getting token fails, still return basic headers
+      // This allows non-auth endpoints to work
+      return {
+        'Content-Type': 'application/json',
+      };
     }
-    
-    return {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    };
   }
 
   private async request<T>(
@@ -133,6 +145,14 @@ class ApiClient {
     return this.request<boolean>('/api/settings/onboarding', {
       method: 'PUT',
       body: JSON.stringify({ completed: true }),
+    });
+  }
+
+  // FCM Token Registration
+  async registerFCMToken(token: string) {
+    return this.request<{ message: string }>('/api/fcm/register', {
+      method: 'POST',
+      body: JSON.stringify({ token }),
     });
   }
 
