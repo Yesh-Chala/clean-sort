@@ -1,3 +1,20 @@
+// Import Firebase SDK for FCM in service worker
+importScripts('https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.13.0/firebase-messaging-compat.js');
+
+// Initialize Firebase in service worker
+const firebaseConfig = {
+  apiKey: "AIzaSyCP9KYOR5AR21k7RWJOUddnSnrjQLMT1gY",
+  authDomain: "clean-sort.firebaseapp.com",
+  projectId: "clean-sort",
+  storageBucket: "clean-sort.firebasestorage.app",
+  messagingSenderId: "17454415157",
+  appId: "1:17454415157:web:7c895b21c5a0164672607c"
+};
+
+firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
+
 const CACHE_NAME = "cleansort-v1"
 const urlsToCache = [
   "/",
@@ -82,9 +99,89 @@ async function doBackgroundSync() {
   console.log("Background sync triggered")
 }
 
-// Push notification handling (FCM)
+// Service Worker Debug - Check capabilities
+console.log('[sw.js] Service worker loaded - Checking capabilities...');
+console.log('[sw.js] Registration available:', !!self.registration);
+console.log('[sw.js] showNotification available:', !!(self.registration && self.registration.showNotification));
+
+// FCM Background Message Handler (for when app is closed/minimized)
+messaging.onBackgroundMessage((payload) => {
+  console.log('[sw.js] ========== FCM MESSAGE RECEIVED ==========');
+  console.log('[sw.js] Full payload:', JSON.stringify(payload, null, 2));
+  
+  const notificationTitle = payload.notification?.title || 'CleanSort Reminder';
+  const notificationBody = payload.notification?.body || payload.data?.itemName || 'Time to dispose of an item!';
+  
+  console.log('[sw.js] Notification title:', notificationTitle);
+  console.log('[sw.js] Notification body:', notificationBody);
+  console.log('[sw.js] Registration exists:', !!self.registration);
+  console.log('[sw.js] showNotification method exists:', !!(self.registration?.showNotification));
+  
+  if (!self.registration) {
+    console.error('[sw.js] ❌ CRITICAL: self.registration is null!');
+    return Promise.reject(new Error('Service worker registration not available'));
+  }
+  
+  if (!self.registration.showNotification) {
+    console.error('[sw.js] ❌ CRITICAL: showNotification method not available!');
+    return Promise.reject(new Error('showNotification method not available'));
+  }
+  
+  const notificationOptions = {
+    body: notificationBody,
+    icon: '/icon-512.jpg',
+    badge: '/icon-512.jpg',
+    vibrate: [100, 50, 100],
+    data: {
+      ...payload.data,
+      reminderId: payload.data?.reminderId || payload.data?.id,
+      itemId: payload.data?.itemId,
+      itemName: payload.data?.itemName,
+    },
+    actions: [
+      {
+        action: "done",
+        title: "Mark as Done",
+        icon: "/icon-512.jpg",
+      },
+      {
+        action: "snooze",
+        title: "Snooze 1 hour",
+        icon: "/icon-512.jpg",
+      },
+    ],
+    requireInteraction: false,
+    silent: false,
+    tag: payload.data?.reminderId || 'reminder',
+  };
+
+  console.log('[sw.js] Calling showNotification with:', {
+    title: notificationTitle,
+    options: JSON.stringify(notificationOptions, null, 2)
+  });
+  
+  const notificationPromise = self.registration.showNotification(notificationTitle, notificationOptions);
+  
+  console.log('[sw.js] showNotification returned promise:', notificationPromise);
+  
+  notificationPromise.then(() => {
+    console.log('[sw.js] ========== ✅ NOTIFICATION SHOWN SUCCESSFULLY ==========');
+    console.log('[sw.js] Promise resolved - notification should be visible');
+  }).catch((error) => {
+    console.error('[sw.js] ========== ❌ NOTIFICATION FAILED ==========');
+    console.error('[sw.js] Error:', error);
+    console.error('[sw.js] Error name:', error.name);
+    console.error('[sw.js] Error message:', error.message);
+    console.error('[sw.js] Error stack:', error.stack);
+    console.error('[sw.js] Full error object:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
+  });
+  
+  return notificationPromise;
+});
+
+// Push event handler (fallback for non-FCM pushes)
 self.addEventListener("push", (event) => {
-  console.log('Push event received:', event);
+  console.log('[sw.js] Push event received:', event);
   
   let notificationData = {
     title: "CleanSort Reminder",
@@ -114,7 +211,7 @@ self.addEventListener("push", (event) => {
   if (event.data) {
     try {
       const payload = event.data.json();
-      console.log('FCM payload:', payload);
+      console.log('[sw.js] FCM payload:', payload);
       
       // Extract notification data from FCM payload
       if (payload.notification) {
@@ -132,7 +229,7 @@ self.addEventListener("push", (event) => {
         };
       }
     } catch (error) {
-      console.error('Error parsing FCM payload:', error);
+      console.error('[sw.js] Error parsing FCM payload:', error);
       // Fallback: try to get text if JSON parsing fails
       try {
         const text = event.data.text();
@@ -140,13 +237,17 @@ self.addEventListener("push", (event) => {
           notificationData.body = text;
         }
       } catch (textError) {
-        console.error('Error reading push data as text:', textError);
+        console.error('[sw.js] Error reading push data as text:', textError);
       }
     }
   }
 
   event.waitUntil(
-    self.registration.showNotification(notificationData.title, notificationData)
+    self.registration.showNotification(notificationData.title, notificationData).then(() => {
+      console.log('[sw.js] ✅ Push notification shown');
+    }).catch((error) => {
+      console.error('[sw.js] ❌ Push notification error:', error);
+    })
   );
 });
 

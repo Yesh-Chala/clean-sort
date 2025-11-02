@@ -79,10 +79,15 @@ export async function getFCMToken(): Promise<string | null> {
     }
 
     // Get the token
-    // Firebase will automatically look for firebase-messaging-sw.js
-    // If it exists, it will use it; otherwise it will use the default service worker
+    // Use the already-registered service worker (sw.js)
+    // Firebase will use sw.js since firebase-messaging-sw.js doesn't exist
+    const registration = await navigator.serviceWorker.ready;
+    
+    console.log('Using service worker:', registration.active?.scriptURL);
+    
     const token = await getToken(messaging, {
       vapidKey: VAPID_KEY,
+      serviceWorkerRegistration: registration,
     });
 
     if (token) {

@@ -7,10 +7,12 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: "autoUpdate",
-      workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg,jpeg}"],
-      },
+      // Disable auto service worker registration - we use manual sw.js + firebase-messaging-sw.js
+      injectRegister: null,
+      // Use injectManifest strategy to prevent VitePWA from generating its own service worker
+      strategies: 'injectManifest',
+      srcDir: 'public',
+      filename: 'sw.js',
       manifest: {
         name: "CleanSort - Smart Decluttering Assistant",
         short_name: "CleanSort",
