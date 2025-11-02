@@ -15,26 +15,19 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
+// This will be replaced by Workbox with the precache manifest
+const precacheManifest = self.__WB_MANIFEST || []
+
 const CACHE_NAME = "cleansort-v1"
-const urlsToCache = [
-  "/",
-  "/add",
-  "/scan",
-  "/reminders",
-  "/guides",
-  "/items",
-  "/settings",
-  "/manifest.json",
-  "/icon-192.png",
-  "/icon-512.jpg",
-  "/static/js/bundle.js",
-  "/static/css/main.css",
-]
 
 // Install event - cache resources
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
+      // Precache files from Workbox manifest
+      const urlsToCache = precacheManifest.map((entry) => {
+        return typeof entry === 'string' ? entry : entry.url
+      })
       return cache.addAll(urlsToCache)
     }),
   )
